@@ -21,4 +21,4 @@ Edit it, save it, and commit it on your branch.
 Open `clue3.txt` and follow its instructions.
 
 ## Participants
--
+- Lenitschka
