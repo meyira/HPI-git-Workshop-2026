@@ -23,3 +23,4 @@ Open `clue3.txt` and follow its instructions.
 ## Participants
 - Lena
 - Alex
+- Melanie
