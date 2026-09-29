@@ -1,0 +1,7 @@
+Clue 3
+Part 3: everything}
+
+Two clue files used to exist in this repo. They were deleted.
+In GitHub Desktop, click the "History" tab on the left.
+Click the older commits one by one. Each one shows what changed.
+Find the two missing parts, then join all three.

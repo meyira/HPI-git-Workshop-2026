@@ -5,7 +5,7 @@ Welcome! This repo holds a few secrets. Your job is to learn git by finding them
 ## Rules
 1. Do not work on the `main` branch after Task 2.
 2. Commit often, with a message that says what you changed.
-3. If a scary message appears, stop and raise your hand.
+3. If an unknown message appears, stop and raise your hand.
 
 ## Task 1: Conflicts
 Open this file in the editor and add your name at the bottom, and commit it

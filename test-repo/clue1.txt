@@ -1,0 +1,3 @@
+Clue 1
+The flag has three parts.
+Part 1: FLAG{git_
