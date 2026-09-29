@@ -1,0 +1,130 @@
+% =====================================================================
+%  Pirate map: outline slide and section dividers
+%
+%  Preamble needs:
+%    \usepackage{tikz}
+%    \usetikzlibrary{decorations.pathmorphing}
+%    \usepackage{fontawesome5}
+%
+%  Usage:
+%    \pirate{0}   overview, everything at full strength
+%    \pirate{1}   ... \pirate{4}   one stop live, the others dimmed
+%                 stop 4 is the X itself (the parameters)
+%
+%    \begin{frame}[plain]
+%      \noindent\makebox[\textwidth][c]{\resizebox{0.97\paperwidth}{!}{\pirate{0}}}
+%    \end{frame}
+%
+%  (0.97 not 1.0: the map is 12x6.8, so at full paperwidth it is 0.07cm too
+%   tall for a 16:9 slide and beamer reports an overfull vbox.)
+% =====================================================================
+
+% ------------------------------ COLOURS ------------------------------
+\definecolor{parch}{RGB}{238,224,193}
+\definecolor{parch2}{RGB}{246,237,216}
+\definecolor{ink}{RGB}{92,64,42}
+\definecolor{sea}{RGB}{124,150,158}
+\definecolor{xred}{RGB}{160,52,44}
+
+% ------------------------------ STYLES -------------------------------
+\tikzset{
+  badge/.style={circle,draw=ink,fill=parch2,line width=0.7pt,
+                inner sep=1.5pt,font=\large,text=ink},
+  lbl/.style={draw=ink,fill=parch2,line width=0.5pt,align=center,
+              font=\scriptsize,text width=2.9cm,inner sep=3.5pt},
+  trail/.style={ink!45,line width=1.1pt,dash pattern=on 3.5pt off 3pt},
+  live/.style={xred,line width=1.3pt,dash pattern=on 3.5pt off 3pt},
+  stop/.code n args={2}{%
+    \ifnum#2=0\relax
+      \tikzset{badge}%
+    \else
+      \ifnum#1=#2\relax
+        \tikzset{badge,draw=xred,text=xred,line width=1.1pt}%
+      \else
+        \tikzset{badge,draw=ink!45,fill=parch2!70,text=ink!45}%
+      \fi
+    \fi},
+  lblstop/.code n args={2}{%
+    \ifnum#2=0\relax
+      \tikzset{lbl}%
+    \else
+      \ifnum#1=#2\relax
+        \tikzset{lbl,draw=xred,text=ink}%
+      \else
+        \tikzset{lbl,draw=ink!30,fill=parch2!55,text=ink!42}%
+      \fi
+    \fi}}
+
+% ------------------------------ THE MAP ------------------------------
+\newcommand{\pirate}[1]{%
+  % colour of the X, chosen before any option list
+  \ifnum#1=0\relax
+    \colorlet{xnow}{xred}%
+  \else
+    \ifnum#1=4\relax\colorlet{xnow}{xred}\else\colorlet{xnow}{xred!35}\fi
+  \fi
+  \begin{tikzpicture}[every node/.style={transform shape=false}]
+  \pgfmathsetseed{2718}% same torn edge on every copy
+
+  % ---------- parchment ----------
+  \draw[fill=parch,draw=ink,line width=0.9pt,
+        decorate,decoration={random steps,segment length=7pt,amplitude=1.7pt}]
+        (0,0) rectangle (12,6.8);
+  \draw[ink,opacity=0.35,line width=0.4pt] (0.22,0.22) rectangle (11.78,6.58);
+
+  % ---------- compass rose ----------
+  \begin{scope}[shift={(5.15,5.75)},ink]
+    \foreach \a in {0,45,...,315}{\draw[line width=0.4pt] (\a:0.05) -- (\a:0.34);}
+    \foreach \a in {0,90,180,270}{\fill (\a:0.42) -- (\a+14:0.11) -- (\a-14:0.11) -- cycle;}
+    \draw[line width=0.4pt] (0,0) circle (0.16);
+    \node[font=\tiny,anchor=south] at (0,0.46) {N};
+  \end{scope}
+
+  % ---------- sea, ship, coffee ring ----------
+  \begin{scope}[sea,line width=0.7pt]
+    \foreach \y in {1.05,1.35,1.65}{
+      \draw (6.5,\y) to[out=25,in=155] (7.1,\y)
+            to[out=-25,in=205] (7.7,\y) to[out=25,in=155] (8.3,\y);}
+  \end{scope}
+  \node[font=\normalsize,text=sea] at (7.4,2.15) {\faShip};
+
+  % ---------- trail ----------
+  \draw[trail] (1.60,4.40) to[out=-70,in=118] (5.00,2.20);
+  \draw[trail] (5.00,2.20) to[out=42,in=-142] (8.70,4.60);
+  \draw[trail] (8.70,4.60) to[out=-45,in=140] (11.20,2.50);
+  \ifnum#1=0\relax
+    \draw[live,ink] (1.60,4.40) to[out=-70,in=118] (5.00,2.20);
+    \draw[live,ink] (5.00,2.20) to[out=42,in=-142] (8.70,4.60);
+    \draw[live,ink] (8.70,4.60) to[out=-45,in=140] (11.20,2.50);
+  \fi
+  \ifnum#1=2\relax\draw[live] (1.60,4.40) to[out=-70,in=118] (5.00,2.20);\fi
+  \ifnum#1=3\relax\draw[live] (5.00,2.20) to[out=42,in=-142] (8.70,4.60);\fi
+  \ifnum#1=4\relax\draw[live] (8.70,4.60) to[out=-45,in=140] (11.20,2.50);\fi
+
+  % ---------- stops ----------
+  \node[stop={1}{#1}] at (1.60,4.40) {\faCompass};
+  \node[stop={2}{#1}] at (5.00,2.20) {\faScroll};
+  \node[stop={3}{#1}] at (8.70,4.60) {\faSkullCrossbones};
+
+  % ---------- X marks the spot ----------
+  \ifnum#1=4\relax\def\xwd{2.4pt}\else\def\xwd{1.8pt}\fi
+  \begin{scope}[shift={(11.20,2.50)},draw=xnow,line width=\xwd]
+    \draw (-0.26,-0.26) -- (0.26,0.26);
+    \draw (-0.26,0.26)  -- (0.26,-0.26);
+  \end{scope}
+
+  % ---------- labels ----------
+  \node[lblstop={1}{#1},rotate=-2] at (1.85,5.75)
+    {\textbf{1. Testing waters}\\[0.15em]
+     {\tiny moduli and ring choices}};
+  \node[lblstop={2}{#1},rotate=1.5] at (4.90,0.90)
+    {\textbf{2. The assumptions}\\[0.15em]
+     {\tiny two secrets, two problems}};
+  \node[lblstop={3}{#1},rotate=-1.5] at (8.70,5.85)
+    {\textbf{3. Breaking and entering}\\[0.15em]
+     {\tiny  failing to break\\ my own crypto}};
+  \node[lblstop={4}{#1},rotate=-3,text width=2.5cm] at (10.05,1.25)
+    {\textbf{4. Parameters}\\[0.15em]
+     {\tiny what to ship}};
+
+  \end{tikzpicture}}
