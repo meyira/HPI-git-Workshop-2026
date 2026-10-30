@@ -1,6 +1,6 @@
-eagle = meet at Potsdam Hbf
-falcon = bring the chocolate to the meeting room
-owl = the agenda has changed
-sparrow = all clear
-raven = let's break for coffee
-heron = the morning run starts at 7am
+eagle = meet at HPI
+falcon = bring the gummy bears to the meeting room
+owl = the agenda has not changed
+sparrow = nothing clear
+raven = let's break for tea
+heron = the morning run starts at 8am
