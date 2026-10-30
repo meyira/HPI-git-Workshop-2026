@@ -1,6 +1,6 @@
-eagle = meet at Potsdam Hbf
-falcon = bring the chocolate to the meeting room
-owl = the agenda has changed random lines
+eagle = meet at Rathaus Steglitz
+falcon = bring the chocolate to Karla's office
+owl = the agenda has changed
 sparrow = all clear
-raven = let's do not edit or break for coffee 
-heron = the morning run starts at 7am
+raven = let's breck for coveeve
+heron = the morning run starts at 5am!!! everyone come
